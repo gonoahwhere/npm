@@ -12,8 +12,8 @@ class SilentContainer {
 
     // Text Component
     addText(content) {
-        if (content.length > 500) {
-            throw new Error(`Text exceeds the maximum length of 500 characters.` +  `\nUse \`.addLongText()\` to automatically split longer content.`)
+        if (content.length > 4000) {
+            throw new Error(`Text exceeds the maximum length of 4000 characters.`)
         }
 
         this.components.push({
@@ -172,11 +172,13 @@ class SilentContainer {
             prisma: 'prisma',
         };
 
-        if (name === 'Dockerfile') return 'dockerfile';
-        if (name === 'Makefile') return 'makefile';
-        if (name === '.env') return '';
+        const nameOverrides = {
+            Dockerfile: 'dockerfile',
+            Makefile: 'makefile',
+            '.env': '',
+        };
         
-        const finalLanguage = language || languageMap[ext] || '';
+        const finalLanguage = language || nameOverrides[name] || languageMap[ext] || '';
         
         // Header
         this.addText(`${icon} **${name}**`);
@@ -184,7 +186,7 @@ class SilentContainer {
         // Preview (optional)
         if (showPreview) {
             const content = buffer?.toString?.() ?? String(buffer)
-            this.addCodeBlock(content, finalLanguage);
+            this.addLongCodeBlock(content, finalLanguage);
         }
 
         // Attach file (real download)
@@ -207,12 +209,17 @@ class SilentContainer {
             textContents !== null &&
             !Array.isArray(textContents)
         ) {
-            accessory = textContents.thumbnail
-                ? SilentContainer.thumbnail(
+            if (textContents.thumbnail) {
+                accessory = SilentContainer.thumbnail(
                     textContents.thumbnail,
                     textContents.description
-                )
-                : undefined;
+                );
+            } else if (textContents.button) {
+                const { label, customId, url, style = 1 } = textContents.button;
+                accessory = url
+                    ? SilentContainer.linkButton(label, url)
+                    : SilentContainer.button(label, customId, style);
+            }
 
             textContents = textContents.text;
         }
@@ -220,6 +227,11 @@ class SilentContainer {
         const texts = Array.isArray(textContents)
             ? textContents
             : [textContents];
+
+        if (!accessory) {
+            texts.forEach(content => this.addText(content));
+            return this;
+        }
 
         this.components.push({
             type: 9,
@@ -303,6 +315,25 @@ class SilentContainer {
 
     addCodeBlock(content, language = '') {
         return this.addText(`\`\`\`${language}\n${content}\n\`\`\``);
+    }
+
+    addLongCodeBlock(content, language = '', maxChunk = 1900) {
+        const fenceOverhead = language.length + 8;
+        const chunkSize = maxChunk - fenceOverhead;
+
+        while (content.length > chunkSize) {
+            let split = content.lastIndexOf('\n', chunkSize);
+            if (split === -1) split = chunkSize;
+
+            this.addCodeBlock(content.slice(0, split), language);
+            content = content.slice(split).replace(/^\n/, '');
+        }
+
+        if (content.length) {
+            this.addCodeBlock(content, language);
+        }
+
+        return this;
     }
 
     // List Components
