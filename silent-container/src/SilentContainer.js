@@ -197,18 +197,41 @@ class SilentContainer {
 
     // Section Components
     addSection(textContents, accessory) {
-        const texts = Array.isArray(textContents) ? textContents : [textContents];
+        // Support object syntax
+        if (
+            typeof textContents === 'object' &&
+            textContents !== null &&
+            !Array.isArray(textContents)
+        ) {
+            accessory = textContents.thumbnail
+                ? SilentContainer.thumbnail(
+                    textContents.thumbnail,
+                    textContents.description
+                )
+                : undefined;
+
+            textContents = textContents.text;
+        }
+
+        const texts = Array.isArray(textContents)
+            ? textContents
+            : [textContents];
+
         this.components.push({
             type: 9,
-            components: texts.map(content => ({ type: 10, content })),
+            components: texts.map(content => ({
+                type: 10,
+                content,
+            })),
             accessory,
         });
+
         return this;
     }
 
     // Thumbnail Component
     static thumbnail(url, description) {
-        return { type: 11, media: { url }, description };
+        return { type: 11, media: { url, }, description, };
     }
 
     // Button Components
