@@ -359,35 +359,42 @@ class SilentContainer {
     }
 
     // Info Helpers
-    addInfo(content, icon = 'ℹ️', options = {}) {
-        return this._formatMessage(content, icon, options);
+    addInfo(content, options = {}) {
+        return this._formatMessage(content, 'ℹ️', options);
     }
 
-    addSuccess(content, icon = '✅', options = {}) {
-        return this._formatMessage(content, icon, options);
+    addSuccess(content, options = {}) {
+        return this._formatMessage(content, '✅', options);
     }
 
-    addWarning(content, icon = '⚠️', options = {}) {
-        return this._formatMessage(content, icon, options);
+    addWarning(content, options = {}) {
+        return this._formatMessage(content, '⚠️', options);
     }
 
-    addError(content, icon = '❌', options = {}) {
-        return this._formatMessage(content, icon, options);
+    addError(content, options = {}) {
+        return this._formatMessage(content, '❌', options);
     }
 
     // Formats the Info Helpers
-    _formatMessage(content, icon, options = {}) {
+    _formatMessage(content, defaultIcon, options = {}) {
         const isQuote = options.quote === true;
 
-        // fallback icon if none provided
-        const finalIcon = icon || 'ℹ️';
+        let finalIcon;
+        if (!('icon' in options) || options.icon === undefined) {
+            finalIcon = defaultIcon;
+        } else if (options.icon === null) {
+            finalIcon = '';
+        } else {
+            finalIcon = options.icon;
+        }
 
+        const prefix = finalIcon ? `${finalIcon} ` : '';
         let text;
 
         if (isQuote) {
-            text = `> *${finalIcon} ${content}*`;
+            text = `> *${prefix}${content}*`;
         } else {
-            text = `${finalIcon} ${content}`;
+            text = `${prefix}${content}`;
         }
 
         return this.addText(text);
