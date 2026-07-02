@@ -12,6 +12,10 @@ class SilentContainer {
 
     // Text Component
     addText(content) {
+        if (content.length > 500) {
+            throw new Error(`Text exceeds the maximum length of 500 characters.` +  `\nUse \`.addLongText()\` to automatically split longer content.`)
+        }
+
         this.components.push({
             type: 10,
             content,
