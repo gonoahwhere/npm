@@ -1,6 +1,6 @@
 {
   "name": "silent-container",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A more advanced Components V2 for Discord.JS",
   "main": "src/SilentContainer.js",
   "scripts": {
@@ -13,13 +13,15 @@
     "container",
     "v2"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "gonoahwhere",
+  "license": "MIT",
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gonoahwhere/npm/silent-container"
+    "url": "git+https://github.com/gonoahwhere/npm.git",
+    "directory": "silent-container"
   },
+  "homepage": "https://github.com/gonoahwhere/npm/tree/main/silent-container#readme",
   "files": [
     "src"
   ],
