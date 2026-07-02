@@ -452,5 +452,3 @@ await interaction.reply({ ...container.toMessagePayload() });
 | showPreview | true | Shows a preview of the file chosen |
 | icon | 📄 | Displays an icon of your choice, or the default icon |
 | attach | true | Attaches the file which is downloadable |
-
-> If you have any questions, or want to provide feedback - Don't hesitate to contact via Discord!
