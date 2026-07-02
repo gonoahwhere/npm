@@ -451,8 +451,4 @@ await interaction.reply({ ...container.toMessagePayload() });
 | language | txt | The language to use in the preview, for syntax highlighting |
 | showPreview | true | Shows a preview of the file chosen |
 | icon | 📄 | Displays an icon of your choice, or the default icon |
-<<<<<<< HEAD
 | attach | true | Attaches the file which is downloadable |
-=======
-| attach | true | Attaches the file which is downloadable |
->>>>>>> dbcc30a (Updated README.md)
