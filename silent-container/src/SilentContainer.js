@@ -263,8 +263,15 @@ class SilentContainer {
         return { type: 2, style: 5, label, url };
     }
 
-    static button(label, customId, style = 1) {
-        return { type: 2, style, label, custom_id: customId };
+    static button(label, customId, style = 1, options = {}) {
+        return {
+            type: 2,
+            style,
+            label,
+            custom_id: customId,
+            emoji: options.emoji,
+            disabled: options.disabled,
+        };
     }
     
     // Split long text into multiple text components, each under the maxChunk limit

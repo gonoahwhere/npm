@@ -1,6 +1,6 @@
 {
   "name": "silent-container",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A more advanced Components V2 for Discord.JS",
   "main": "src/SilentContainer.js",
   "scripts": {

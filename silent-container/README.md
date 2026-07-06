@@ -44,7 +44,8 @@ await interaction.reply({ ...container.toMessagePayload() });
 | `.addWarning()` | Add a warning message with an optional icon or quote style. |
 | `.addSuccess()` | Add a success message with an optional icon or quote style. |
 | `.addError()` | Add an error message with an optional icon or quote style. |
-| `.addSeparator()` | Insert a divider or spacer between components. |
+| `.addDivider()` | Insert a divider between components. |
+| `.addSpacer()` | Insert a spacer between components. |
 | `.addMedia()` | Display one or more images in a media gallery. |
 | `.addFile()` | Display an attached file in the container. |
 | `.attachFile()` | Attach a file to the outgoing message. |
